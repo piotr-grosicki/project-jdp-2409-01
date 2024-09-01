@@ -31,12 +31,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public void createProduct(ProductDto productDto) {
+    public void createProduct(@RequestBody ProductDto productDto) {
 
     }
 
     @PutMapping
-    public ProductDto updateProduct(ProductDto productDto) {
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         return new ProductDto(
                 1L,
                 "Bluetooth speaker plus",
@@ -47,8 +47,8 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping
-    public void deleteProduct(Long productId) {
+    @DeleteMapping(value = "{productId}")
+    public void deleteProduct(@PathVariable Long productId) {
 
     }
 
