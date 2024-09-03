@@ -26,16 +26,6 @@ public class GroupController {
             description = "Retrieve all product groups",
             summary = "Get groups"
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Product groups retrieved successfully",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = GroupDto.class))
-                    )
-            )
-    })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GroupDto>> getGroups() {
@@ -50,22 +40,8 @@ public class GroupController {
             description = "Creating a product group",
             summary = "Create a group"
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Product group created successfully"
-            )
-    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Group data to create.",
-            required = true,
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = GroupDto.class)
-            )
-    )
     public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -74,24 +50,6 @@ public class GroupController {
             description = "Receiving a product group by its group ID",
             summary = "Get a group"
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Product group retrieved successfully",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = GroupDto.class)
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Group with ID {groupId} does not exist",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Exception.class)
-                    )
-            )
-    })
     @GetMapping(value = "/{groupId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> getGroup(
@@ -105,30 +63,8 @@ public class GroupController {
     @Operation(
             description = "Updating a product group",
             summary = "Update a group")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Group updated successfully"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Group with ID {groupId} does not exist",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Exception.class)
-                    )
-            )
-    })
     @PutMapping(value = "/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Group data to update.",
-            required = true,
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = UpdateGroupDto.class)
-            )
-    )
     public ResponseEntity<Void> updateGroup(
             @Parameter(description = "Group identifier", required = true, example = "1")
             @PathVariable Long groupId,
