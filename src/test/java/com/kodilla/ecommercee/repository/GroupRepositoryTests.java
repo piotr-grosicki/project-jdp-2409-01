@@ -21,7 +21,7 @@ public class GroupRepositoryTests {
     @Test
     void shouldSaveGroup() throws InterruptedException {
         // Given
-        Group group = new Group(null,"Group name", null, null, LocalDateTime.now());
+        Group group = new Group(null,"Group name", null, null, null, LocalDateTime.now());
         Group savedGroup = groupRepository.save(group);
         Long savedGroupId = savedGroup.getId();
         // When
@@ -35,8 +35,8 @@ public class GroupRepositoryTests {
     @Test
     void shouldDeleteGroupWhenParentGroupIsDeleted() {
         // Given
-        Group parentGroup = new Group(null, "Parent group", null, null, LocalDateTime.now());
-        Group childGroup = new Group(null, "Child group", parentGroup, null, LocalDateTime.now());
+        Group parentGroup = new Group(null, "Parent group", null, null, null, LocalDateTime.now());
+        Group childGroup = new Group(null, "Child group", parentGroup, null, null, LocalDateTime.now());
 
         groupRepository.save(parentGroup);
         groupRepository.save(childGroup);
