@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -25,6 +26,8 @@ public class Group {
     @ManyToOne
     @JoinColumn(name = "PARENT_GROUP_ID")
     private Group parentGroup;
+    @OneToMany(mappedBy = "group")
+    private List<Product> products;
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createdDate;
