@@ -1,26 +1,32 @@
 package com.kodilla.ecommercee.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@Getter
 public class OrderDto {
+    @Schema(description = "Unique identifier of the order", example = "1")
     private Long id;
+
+    @Schema(description = "Date when the order was placed", example = "2023-09-04")
     private LocalDate orderDate;
+
+    @Schema(description = "Total amount of the order", example = "199.99")
     private BigDecimal totalAmount;
+
+    @Schema(description = "Status of the order", example = "COMPLETED")
     private String status;
+
+    @Schema(description = "User identifier associated with the order", example = "1")
     private Long userId;
 
     // Konstruktor bezargumentowy
     public OrderDto() {
-    }
-
-    // Konstruktor z wszystkimi argumentami
-    public OrderDto(Long id, LocalDate orderDate, BigDecimal totalAmount, String status, Long userId) {
-        this.id = id;
-        this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
-        this.status = status;
-        this.userId = userId;
     }
 
     //Generujemy zestawy getterów oraz setterów
