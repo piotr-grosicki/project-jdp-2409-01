@@ -26,6 +26,8 @@ public class Group {
     @ManyToOne
     @JoinColumn(name = "PARENT_GROUP_ID")
     private Group parentGroup;
+    @OneToMany(mappedBy = "parentGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Group> subGroups;
     @OneToMany(mappedBy = "group")
     private List<Product> products;
     @NotNull
