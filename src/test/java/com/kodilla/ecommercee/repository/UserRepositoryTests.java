@@ -21,7 +21,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldSaveUser() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6));
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
@@ -34,7 +34,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldChangeUserStatus() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6));
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6),null,null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When

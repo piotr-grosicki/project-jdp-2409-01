@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -40,4 +41,8 @@ public class User {
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;
+    @OneToMany(mappedBy = "cartId", cascade = CascadeType.ALL)
+    private List<Cart> carts;
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private List<Order> orders;
 }
