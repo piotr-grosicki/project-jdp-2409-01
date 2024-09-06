@@ -17,14 +17,9 @@ public class Order {
     @GeneratedValue
     @NotNull
     private int orderId;
-
-    //@NotNull
-    //@ManyToOne
-    //@JoinColumn(name = "USER_ID")
-    //private User getUserId(){
-    //return user;
-    //}
-
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User userId;
     @NotNull
     @Column(name = "TOTAL_AMOUNT")
     private double total;
@@ -34,11 +29,8 @@ public class Order {
     @NotNull
     @Column(name = "STATUS")
     private String status;
-
-    //@NotNull
-    //@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@JoinColumn(name = "FK_ORDER_CART_ID")
-    //private Cart getCartId(){
-        //return cart;}
+    @OneToOne
+    @JoinColumn(name = "CART_ID")
+    private Cart cartId;
 
 }
