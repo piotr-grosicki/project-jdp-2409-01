@@ -22,9 +22,9 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User userId;
-    @OneToMany(mappedBy = "PRODUCTS_IN_CART", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Product> cartProducts;
     @NotNull
-    @Column(name = "CREATE_DATE")
+    @Column(name = "orderId")
     private LocalDateTime createDate;
 }

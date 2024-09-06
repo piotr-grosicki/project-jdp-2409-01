@@ -18,7 +18,7 @@ public class Order {
     @NotNull
     private int orderId;
     @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID")
     private User userId;
     @NotNull
     @Column(name = "TOTAL_AMOUNT")
@@ -30,7 +30,7 @@ public class Order {
     @Column(name = "STATUS")
     private String status;
     @OneToOne
-    @JoinColumn(name = "CART_ID", nullable = false)
+    @JoinColumn(name = "CART_ID")
     private Cart cartId;
 
 }

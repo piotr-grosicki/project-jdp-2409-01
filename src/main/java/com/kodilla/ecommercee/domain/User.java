@@ -41,8 +41,8 @@ public class User {
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;
-    @OneToMany(mappedBy = "USER_CARTS", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cartId", cascade = CascadeType.ALL)
     private List<Cart> carts;
-    @OneToMany(mappedBy = "USER_ORDERS", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private List<Order> orders;
 }
