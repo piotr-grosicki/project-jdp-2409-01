@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,9 +19,11 @@ public class Cart {
     @GeneratedValue
     @Column(name = "CART_ID", unique = true)
     private Long cartId;
-    @NotNull
-    @Column(name = "FK_CART_USER_ID")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User userId;
+    @OneToMany(mappedBy = "PRODUCTS_IN_CART", cascade = CascadeType.ALL)
+    private List<Product> cartProducts;
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
