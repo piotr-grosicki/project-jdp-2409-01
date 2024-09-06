@@ -3,13 +3,13 @@ package com.kodilla.ecommercee.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
