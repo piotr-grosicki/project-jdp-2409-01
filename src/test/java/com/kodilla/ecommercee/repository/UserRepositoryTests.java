@@ -38,7 +38,7 @@ public class UserRepositoryTests {
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
-        //changing status
+        //changin status
         String beforeChange = savedUser.getStatus();
         savedUser.setStatus("Blocked");
         userRepository.save(savedUser);
