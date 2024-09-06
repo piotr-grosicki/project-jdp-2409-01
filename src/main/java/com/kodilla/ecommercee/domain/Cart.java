@@ -19,12 +19,12 @@ public class Cart {
     @GeneratedValue
     @Column(name = "CART_ID", unique = true)
     private Long cartId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User userId;
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Product> cartProducts;
     @NotNull
-    @Column(name = "orderId")
+    @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 }
