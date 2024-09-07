@@ -1,21 +1,27 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.service.ProductDbService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/products")
 @Tag(name = "Products", description = "Managing products")
 public class ProductController {
+
+    private final ProductMapper productMapper;
+    private final ProductDbService productDbService;
 
     @Operation(
             description = "Get products list from database",
@@ -24,17 +30,8 @@ public class ProductController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<ProductDto>> getProducts() {
-        return ResponseEntity.ok(
-                List.of(new ProductDto(
-                        2L,
-                        "Socks",
-                        "Big white socks",
-                        BigDecimal.valueOf(2.99),
-                        500,
-                        18,
-                        LocalDate.of(2024, 9, 6)
-                ))
-        );
+        List<Product> products = productDbService.getAllProducts();
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(products));
     }
 
     @Operation(
@@ -43,17 +40,8 @@ public class ProductController {
     )
     @GetMapping(value = "/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long productId) {
-        return ResponseEntity.ok(new ProductDto(
-                1L,
-                "Bluetooth speaker",
-                "Great speaker",
-                BigDecimal.valueOf(249),
-                50,
-                1,
-                LocalDate.of(2024, 8, 31)
-                )
-        );
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long productId) throws ProductNotFoundException {
+        return ResponseEntity.ok(productMapper.productToProductDto(productDbService.getProduct(productId)));
     }
 
     @Operation(
@@ -63,7 +51,9 @@ public class ProductController {
     @PostMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        Product product = productMapper.productDtoToProduct(productDto);
+        productDbService.saveProduct(product);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -72,8 +62,10 @@ public class ProductController {
     )
     @PutMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
+        Product product = productMapper.productDtoToProduct(productDto);
+        Product savedProduct = productDbService.saveProduct(product);
+        return ResponseEntity.ok(productMapper.productToProductDto(savedProduct));
     }
 
     @Operation(
@@ -82,8 +74,13 @@ public class ProductController {
     )
     @DeleteMapping(value = "/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) throws ProductNotFoundException {
+        boolean isDeleted = productDbService.deleteProduct(productId);
+        if(isDeleted){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
