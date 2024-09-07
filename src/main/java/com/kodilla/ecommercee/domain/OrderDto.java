@@ -23,8 +23,4 @@ public class OrderDto {
     private LocalDateTime creationDate;
     @Schema(description = "Total amount to be paid for the order", example = "150.00")
     private BigDecimal totalAmount;
-
-    // added constructor
-    public OrderDto(long id, LocalDate of, BigDecimal bigDecimal, String delivered, long l) {
-    }
 }
