@@ -3,12 +3,13 @@ package com.kodilla.ecommercee.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Getter
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,4 +41,8 @@ public class User {
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;
+    @OneToMany(mappedBy = "cartId", cascade = CascadeType.ALL)
+    private List<Cart> carts;
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private List<Order> orders;
 }
