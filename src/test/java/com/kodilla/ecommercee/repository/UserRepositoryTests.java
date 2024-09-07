@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Name("Tests for UserRepository")
@@ -21,7 +22,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldSaveUser() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), new ArrayList<>(), new ArrayList<>());
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
