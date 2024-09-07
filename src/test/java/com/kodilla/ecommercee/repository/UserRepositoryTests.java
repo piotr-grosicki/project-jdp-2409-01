@@ -1,5 +1,7 @@
 package com.kodilla.ecommercee.repository;
 
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.User;
 import jdk.jfr.Name;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +24,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldSaveUser() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), new ArrayList<>(), new ArrayList<>());
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
