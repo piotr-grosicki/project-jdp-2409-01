@@ -25,14 +25,14 @@ public class CartRepositoryTests {
     void shouldSaveCart() {
         // Given
         Cart cart = new Cart(
-                1L,
+                2L,
                 new User(
-                        1L,
+                        11002L,
                         "JanNowak",
                         "Jan",
                         "Nowak",
                         "jan.nowak@mail.com",
-                        "very-stron-password",
+                        "very-strong-password",
                         "Active",
                         123456,
                         LocalDate.of(2024, 2, 1),
@@ -57,14 +57,14 @@ public class CartRepositoryTests {
     void shouldDeleteCart() {
         // Given
         Cart cart = new Cart(
-                1L,
+                101L,
                 new User(
-                        1L,
-                        "JanNowak",
-                        "Jan",
+                        11001L,
+                        "JaninaNowak",
+                        "Janina",
                         "Nowak",
-                        "jan.nowak@mail.com",
-                        "very-stron-password",
+                        "janina.nowak@mail.com",
+                        "another-strong-password",
                         "Blocked",
                         123456,
                         LocalDate.of(2024, 2, 1),
