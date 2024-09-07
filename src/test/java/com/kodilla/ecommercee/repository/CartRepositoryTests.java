@@ -50,6 +50,9 @@ public class CartRepositoryTests {
         // Then
         Assertions.assertTrue(cartById.isPresent());
 
+        // CleanUp
+        cartRepository.deleteById(savedCartId);
+
     }
 
     @DisplayName("Test case for deleting cart")
@@ -82,6 +85,9 @@ public class CartRepositoryTests {
 
         // Then
         Assertions.assertFalse(cartById.isPresent());
+
+        // CleanUp
+        // done earlier
 
     }
 }
