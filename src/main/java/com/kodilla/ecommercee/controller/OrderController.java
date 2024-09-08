@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ public class OrderController {
         return new ArrayList<>();
     }
 
-    // Added constructor in OrderDto to make possible OrderController work appropriate //
     @Operation(
             description = "Retrieve a specific order by its ID",
             summary = "Get order by ID"

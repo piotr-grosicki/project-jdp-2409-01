@@ -2,10 +2,16 @@ package com.kodilla.ecommercee.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "PRODUCTS")
 public class Product {
@@ -31,5 +37,5 @@ public class Product {
     private Group group;
     @NotNull
     @Column(name = "CREATE_DATE")
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 }
