@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
 public class GroupDto {
@@ -12,5 +15,11 @@ public class GroupDto {
     @Schema(description = "Name of the group", example = "Group Name")
     private String name;
     @Schema(description = "Identifier of the parent group", example = "0")
-    private Long parentGroupId;
+    private Group parentGroup;
+    @Schema(description = "List of subgroups")
+    private List<Group> subGroups;
+    @Schema(description = "List of products in group")
+    private List<Product> products;
+    @Schema(description = "Group creation date")
+    private LocalDateTime createdDate;
 }
