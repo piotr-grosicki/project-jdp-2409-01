@@ -21,8 +21,13 @@ public class Cart {
     private Long cartId;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID", nullable = false)
-    private User userId;
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private User user;
+    @ManyToMany
+    @JoinTable(
+            name = "CART_PRODUCTS",
+            joinColumns = @JoinColumn(name = "CART_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
+    )
     private List<Product> cartProducts;
     @NotNull
     @Column(name = "CREATE_DATE")

@@ -18,7 +18,7 @@ public class ProductDbService {
         return productRepository.findAll();
     }
     public Product getProduct(final Long productId) throws ProductNotFoundException {
-        return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        return productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
     }
 
     public Product saveProduct(Product product) {
