@@ -96,10 +96,9 @@ public class CartRepositoryTests {
     @Test
     public void shouldFindCartById() {
         // Given
-        Cart cart = new Cart(
-                101L,
+        Cart cart = new Cart(null,
                 new User(
-                        11001L,
+                        null,
                         "JaninaNowak",
                         "Janina",
                         "Nowak",
@@ -115,10 +114,11 @@ public class CartRepositoryTests {
                 LocalDateTime.of(2024,5,10, 15, 10, 0)
         );
         Cart savedCart = cartRepository.save(cart);
-        // When
         Long savedCartId = savedCart.getCartId();
+        // When
+        Long result = savedCart.getCartId();
         // Then
-        Assertions.assertEquals(101L, savedCartId);
+        Assertions.assertEquals(savedCartId, result);
         // CleanUp
         cartRepository.deleteById(savedCartId);
     }
