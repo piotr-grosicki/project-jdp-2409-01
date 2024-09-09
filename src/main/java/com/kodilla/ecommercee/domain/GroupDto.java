@@ -15,7 +15,7 @@ public class GroupDto {
     @Schema(description = "Name of the group", example = "Group Name")
     private String name;
     @Schema(description = "Identifier of the parent group", example = "0")
-    private Group parentGroup;
+    private Long parentGroupId;
     @Schema(description = "List of subgroups")
     private List<Group> subGroups;
     @Schema(description = "List of products in group")

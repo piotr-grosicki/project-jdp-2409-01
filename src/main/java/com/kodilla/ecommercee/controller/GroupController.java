@@ -40,7 +40,7 @@ public class GroupController {
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
+    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
         Group group = groupMapper.groupDtoToGroup(groupDto);
         groupDbService.saveGroup(group);
         return ResponseEntity.ok().build();
@@ -65,7 +65,7 @@ public class GroupController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> updateGroup(
             @Parameter(description = "Group identifier", required = true, example = "1")
-            @RequestBody GroupDto groupDto) {
+            @RequestBody GroupDto groupDto) throws GroupNotFoundException {
         Group group = groupMapper.groupDtoToGroup(groupDto);
         return ResponseEntity.ok(groupMapper.groupToGroupDto(group));
     }
