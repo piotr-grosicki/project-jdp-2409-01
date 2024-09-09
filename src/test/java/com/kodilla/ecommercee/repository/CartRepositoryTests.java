@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.repository;
 
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.User;
+import jdk.jfr.Name;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,5 +90,36 @@ public class CartRepositoryTests {
         // CleanUp
         // done earlier
 
+    }
+
+    @Name("Test for findById method")
+    @Test
+    public void shouldFindCartById() {
+        // Given
+        Cart cart = new Cart(null,
+                new User(
+                        null,
+                        "JaninaNowak",
+                        "Janina",
+                        "Nowak",
+                        "janina.nowak@mail.com",
+                        "another-strong-password",
+                        "Blocked",
+                        123456,
+                        LocalDate.of(2024, 2, 1),
+                        new ArrayList<>(),
+                        new ArrayList<>()
+                ),
+                new ArrayList<>(),
+                LocalDateTime.of(2024,5,10, 15, 10, 0)
+        );
+        Cart savedCart = cartRepository.save(cart);
+        Long savedCartId = savedCart.getCartId();
+        // When
+        Long result = savedCart.getCartId();
+        // Then
+        Assertions.assertEquals(savedCartId, result);
+        // CleanUp
+        cartRepository.deleteById(savedCartId);
     }
 }
