@@ -54,4 +54,20 @@ public class UserRepositoryTests {
         //CleanUp
         userRepository.deleteById(userId);
     }
+
+    @Name("Test for findById method")
+    @Test
+    public void shouldFindUserById() {
+        // Given
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
+        User savedUser = userRepository.save(user);
+        Long userId = savedUser.getUserId();
+        // When
+        Optional<User> result = userRepository.findById(userId);
+        // Then
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals(userId, result.get().getUserId());
+        // CleanUp
+        userRepository.deleteById(userId);
+    }
 }

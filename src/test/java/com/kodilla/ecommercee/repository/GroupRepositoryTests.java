@@ -29,6 +29,8 @@ public class GroupRepositoryTests {
         // Then
         Assertions.assertTrue(retrievedGroup.isPresent());
         Assertions.assertEquals("Group name", retrievedGroup.get().getName());
+        // CleanUp
+        groupRepository.deleteById(savedGroupId);
     }
 
     @DisplayName("Test case for deleting parent group")
