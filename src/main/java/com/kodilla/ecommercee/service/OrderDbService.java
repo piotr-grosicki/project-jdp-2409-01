@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.controller.OrderNotFoundException;
+import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.controller.UserNotFoundException;
 import com.kodilla.ecommercee.controller.CartNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
