@@ -1,27 +1,28 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
-import com.kodilla.ecommercee.domain.UpdateGroupDto;
+import com.kodilla.ecommercee.mapper.GroupMapper;
+import com.kodilla.ecommercee.service.GroupDbService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/groups")
 @Tag(name = "Groups", description = "Managing product groups")
 public class GroupController {
+
+    private final GroupMapper groupMapper;
+    private final GroupDbService groupDbService;
+
     @Operation(
             description = "Retrieve all product groups",
             summary = "Get groups"
@@ -29,11 +30,8 @@ public class GroupController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GroupDto>> getGroups() {
-        return ResponseEntity.ok(new ArrayList<>(
-                List.of(
-                        new GroupDto(1L, "Group name", 0L)
-                )
-        ));
+        List<Group> groups = groupDbService.getAllGroups();
+        return ResponseEntity.ok(groupMapper.mapToGroupDtoList(groups));
     }
 
     @Operation(
@@ -42,8 +40,10 @@ public class GroupController {
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        Group group = groupMapper.groupDtoToGroup(groupDto);
+        groupDbService.saveGroup(group);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -54,21 +54,23 @@ public class GroupController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> getGroup(
             @Parameter(description = "Group identifier", required = true, example = "1")
-            @PathVariable Long groupId) {
-        return ResponseEntity.ok(
-                new GroupDto(1L, "Group name", 0L)
-        );
+            @PathVariable Long groupId) throws GroupNotFoundException {
+        if (!groupDbService.getGroup(groupId).isPresent()) {
+            throw new GroupNotFoundException();
+        } else {
+            return ResponseEntity.ok(groupMapper.groupToGroupDto(groupDbService.getGroup(groupId).get()));
+        }
     }
 
     @Operation(
             description = "Updating a product group",
             summary = "Update a group")
-    @PutMapping(value = "/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> updateGroup(
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GroupDto> updateGroup(
             @Parameter(description = "Group identifier", required = true, example = "1")
-            @PathVariable Long groupId,
-            @RequestBody UpdateGroupDto updateGroupDto) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            @RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        Group group = groupMapper.groupDtoToGroup(groupDto);
+        return ResponseEntity.ok(groupMapper.groupToGroupDto(group));
     }
 }
