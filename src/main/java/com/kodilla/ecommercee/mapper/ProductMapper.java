@@ -2,12 +2,17 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.service.GroupDbService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductMapper {
+    private final GroupDbService groupDbService;
+
     public Product productDtoToProduct(final ProductDto productDto) {
         return new Product(
                 productDto.getProductId(),
@@ -15,7 +20,7 @@ public class ProductMapper {
                 productDto.getDescription(),
                 productDto.getPrice(),
                 productDto.getQuantity(),
-                productDto.getProductGroupId(),
+                groupDbService.getGroup(productDto.getProductGroupId()).orElse(null),
                 productDto.getCreateDate());
     }
 
@@ -26,7 +31,7 @@ public class ProductMapper {
                 product.getDescription(),
                 product.getPrice(),
                 product.getQuantity(),
-                product.getGroup(),
+                product.getGroup().getId(),
                 product.getCreatedDate());
     }
 
@@ -36,4 +41,9 @@ public class ProductMapper {
                 .toList();
     }
 
+    public List<Product> mapToProductList(final List<ProductDto> productDtoList) {
+        return productDtoList.stream()
+                .map(this::productDtoToProduct)
+                .toList();
+    }
 }

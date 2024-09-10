@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.repository;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.UserStatus;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Name;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +42,7 @@ public class CartRepositoryTests {
                 "Nowak",
                 "janina.nowak@mail.com",
                 "another-strong-password",
-                "Blocked",
+                UserStatus.BLOCKED,
                 123456,
                 LocalDate.of(2024, 2, 1),
                 new ArrayList<>(),
@@ -79,7 +80,7 @@ public class CartRepositoryTests {
                 "Nowak",
                 "janina.nowak@mail.com",
                 "another-strong-password",
-                "Blocked",
+                UserStatus.BLOCKED,
                 123456,
                 LocalDate.of(2024, 2, 1),
                 new ArrayList<>(),
@@ -116,7 +117,7 @@ public class CartRepositoryTests {
                 "Nowak",
                 "janina.nowak@mail.com",
                 "another-strong-password",
-                "Blocked",
+                UserStatus.BLOCKED,
                 123456,
                 LocalDate.of(2024, 2, 1),
                 new ArrayList<>(),
@@ -153,7 +154,7 @@ public class CartRepositoryTests {
                 "Nowak",
                 "janina.nowak@mail.com",
                 "another-strong-password",
-                "Blocked",
+                UserStatus.BLOCKED,
                 123456,
                 LocalDate.of(2024, 2, 1),
                 new ArrayList<>(),

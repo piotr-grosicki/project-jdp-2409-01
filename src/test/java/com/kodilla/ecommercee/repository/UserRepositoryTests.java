@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.repository;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.UserStatus;
 import jdk.jfr.Name;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldSaveUser() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
@@ -39,18 +40,18 @@ public class UserRepositoryTests {
     @Test
     public void shouldChangeUserStatus() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6),null,null);
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6),null,null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
         //changin status
-        String beforeChange = savedUser.getStatus();
-        savedUser.setStatus("Blocked");
+        UserStatus beforeChange = savedUser.getStatus();
+        savedUser.setStatus(UserStatus.BLOCKED);
         userRepository.save(savedUser);
-        String afterChange = savedUser.getStatus();
+        UserStatus afterChange = savedUser.getStatus();
         //Then
-        Assertions.assertEquals("Active", beforeChange);
-        Assertions.assertEquals("Blocked", afterChange);
+        Assertions.assertEquals("ACTIVE", beforeChange.toString());
+        Assertions.assertEquals("BLOCKED", afterChange.toString());
         //CleanUp
         userRepository.deleteById(userId);
     }
@@ -59,7 +60,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldFindUserById() {
         // Given
-        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", "Active", 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         // When
@@ -67,6 +68,38 @@ public class UserRepositoryTests {
         // Then
         Assertions.assertTrue(result.isPresent());
         Assertions.assertEquals(userId, result.get().getUserId());
+        // CleanUp
+        userRepository.deleteById(userId);
+    }
+
+    @Name("Test for findByUsername method")
+    @Test
+    public void shouldFindUserByUsername() {
+        // Given
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User savedUser = userRepository.save(user);
+        Long userId = savedUser.getUserId();
+        // When
+        Optional<User> result = userRepository.findByUsername("CarolD");
+        // Then
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals("CarolD", result.get().getUsername());
+        // CleanUp
+        userRepository.deleteById(userId);
+    }
+
+    @Name("Test for findByEmail method")
+    @Test
+    public void shouldFindUserByEmail() {
+        // Given
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User savedUser = userRepository.save(user);
+        Long userId = savedUser.getUserId();
+        // When
+        Optional<User> result = userRepository.findByEmail("carold@gmail.com");
+        // Then
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals("carold@gmail.com", result.get().getEmail());
         // CleanUp
         userRepository.deleteById(userId);
     }
