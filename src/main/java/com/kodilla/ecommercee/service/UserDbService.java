@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.controller.EmailExistsException;
-import com.kodilla.ecommercee.controller.UserNotFoundException;
-import com.kodilla.ecommercee.controller.UsernameExistsException;
+import com.kodilla.ecommercee.controller.exception.EmailExistsException;
+import com.kodilla.ecommercee.controller.exception.UserNotFoundException;
+import com.kodilla.ecommercee.controller.exception.UsernameExistsException;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.UserStatus;
 import com.kodilla.ecommercee.generator.KeyGenerator;

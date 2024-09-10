@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommercee.controller.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
