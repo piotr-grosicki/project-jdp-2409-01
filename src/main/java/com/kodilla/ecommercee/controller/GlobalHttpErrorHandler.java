@@ -53,4 +53,18 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public Error handleInsufficientStockException(InsufficientStockException ise) {
         return new Error("ERROR", "product.insufficient.stock", ise.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(UsernameExistsException.class)
+    public Error handleUsernameExistsException(UsernameExistsException uee) {
+        return new Error("ERROR", "username.already.exists", uee.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(EmailExistsException.class)
+    public Error handleEmailExistsException(EmailExistsException eee) {
+        return new Error("ERROR", "email.already.exists", eee.getMessage());
+    }
 }

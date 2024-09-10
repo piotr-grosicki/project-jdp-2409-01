@@ -33,11 +33,12 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private String status;
+    private UserStatus status;
     @NotNull
     @Column(name = "TEMPORARY_KEY")
-    private int temporaryKey;
+    private Integer temporaryKey;
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;

@@ -48,7 +48,7 @@ public class ProductController {
             description = "Create product in database",
             summary = "Create product"
     )
-    @PostMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
         Product product = productMapper.productDtoToProduct(productDto);

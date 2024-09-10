@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/groups")
+@RequestMapping("/v1/groups")
 @Tag(name = "Groups", description = "Managing product groups")
 public class GroupController {
     @Operation(

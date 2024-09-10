@@ -1,11 +1,13 @@
 package com.kodilla.ecommercee.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
+@Getter
 public class UserDto {
     @Schema(description = "Unique identifier of the user", example = "1")
     private final Long userId;
@@ -19,10 +21,10 @@ public class UserDto {
     private final String email;
     @Schema(description = "Password of the user", example = "Tom123")
     private final String password;
-    @Schema(description = "Status of the user", example = "Active")
-    private final String status;
+    @Schema(description = "Status of the user", example = "ACTIVE")
+    private final UserStatus status;
     @Schema(description = "Temporary Key of the user", example = "1234")
-    private final int temporaryKey;
+    private final Integer temporaryKey;
     @Schema(description = "User creation date and time", example = "2024-09-01T18:15:30")
     private final LocalDate createDate;
 }
