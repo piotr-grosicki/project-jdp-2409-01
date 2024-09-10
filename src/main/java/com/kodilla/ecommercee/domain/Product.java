@@ -5,10 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -36,5 +39,5 @@ public class Product {
     private Group group;
     @NotNull
     @Column(name = "CREATE_DATE")
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 }

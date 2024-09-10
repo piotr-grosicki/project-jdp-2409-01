@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,21 +17,21 @@ public class Order {
     @Id
     @GeneratedValue
     @NotNull
-    private int orderId;
+    private Long orderId;
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
     @NotNull
     @Column(name = "TOTAL_AMOUNT")
-    private double total;
+    private BigDecimal total;
     @NotNull
     @Column(name = "ORDER_DATE")
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     @NotNull
     @Column(name = "STATUS")
-    private String status;
+    private OrderStatus status;
     @OneToOne
     @JoinColumn(name = "CART_ID")
-    private Cart cartId;
+    private Cart cart;
 
 }

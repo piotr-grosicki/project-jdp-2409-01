@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +29,9 @@ public class ProductRepositoryTests {
     @Test
     public void getAll() {
         //Given
-        Group group = new Group(null,"Small SUV", null, null, null, LocalDateTime.now());
-        Group savedGroup = groupRepository.save(group);
-        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, group, LocalDateTime.now());
+        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
         Product savedProduct = productRepository.save(product);
-        Group group2 = new Group(null,"Motorcycles", null, null, null, LocalDateTime.now());
-        Group savedGroup2 = groupRepository.save(group2);
-        Product product2 = new Product(2L, "Yamaha", "Motorcycle", new BigDecimal(16000), 1, group2, LocalDateTime.now());
+        Product product2 = new Product(2L, "Yamaha", "Motorcycle", new BigDecimal(16000), 1, null, LocalDate.now());
         Product savedProduct2 = productRepository.save(product2);
         //When
         Iterable<Product> products = productRepository.findAll();
@@ -42,22 +39,24 @@ public class ProductRepositoryTests {
         //Then
         Assertions.assertEquals(2, listOfProducts.size());
         Assertions.assertEquals("Yamaha", listOfProducts.get(1).getName());
+        //Clean Up
+        productRepository.deleteById(product.getId());
+        productRepository.deleteById(product2.getId());
     }
 
     @DisplayName("Test case for save method")
     @Test
     public void shouldSaveProduct() {
         //Given
-        Group group = new Group(null,"Small SUV", null, null, null, LocalDateTime.now());
-        Group savedGroup = groupRepository.save(group);
-        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, group, LocalDateTime.now());
+        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
         Product savedProduct = productRepository.save(product);
         //When
         Optional<Product> productSaved = productRepository.findById(savedProduct.getId());
         //Then
         Assertions.assertTrue(productSaved.isPresent());
         Assertions.assertEquals("Toyota", productSaved.get().getName());
-
+        //Clean Up
+        productRepository.delete(product);
     }
     @DisplayName("Test case for delete method")
     @Test
@@ -65,7 +64,7 @@ public class ProductRepositoryTests {
         //Given
         Group group = new Group(null,"Small SUV", null, null, null, LocalDateTime.now());
         Group savedGroup = groupRepository.save(group);
-        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, group, LocalDateTime.now());
+        Product product = new Product(1L, "Toyota", "Car", new BigDecimal(55000), 1, group, LocalDate.now());
         Product savedProduct = productRepository.save(product);
         //When
         Optional<Group> groupSaved = groupRepository.findById(savedGroup.getId());
@@ -74,6 +73,9 @@ public class ProductRepositoryTests {
         Assertions.assertFalse(productRepository.findById(savedProduct.getId()).isPresent());
         Assertions.assertTrue(groupSaved.isPresent());
         Assertions.assertEquals("Small SUV", groupSaved.get().getName());
+        //Clean up
+        productRepository.delete(product);
+        groupRepository.delete(group);
     }
 
 }

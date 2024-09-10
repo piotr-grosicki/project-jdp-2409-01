@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,15 +29,17 @@ public class OrderController {
             description = "Retrieve a specific order by its ID",
             summary = "Get order by ID"
     )
+
     @GetMapping("/{orderId}")
     public OrderDto getOrder(@PathVariable Long orderId) {
         // Zwraca sztuczne dane dla zamówienia o danym ID
         return new OrderDto(
-                1L,
-                LocalDate.of(2024, 8, 31),
-                BigDecimal.valueOf(499.99),
-                "Delivered",
-                1L
+                orderId,
+                1L, // userId
+                1L, // cartId
+                "Delivered", // status
+                LocalDateTime.of(2024, 8, 31, 18, 15, 30), // creationDate
+                BigDecimal.valueOf(499.99) // totalAmount
         );
     }
 
@@ -56,13 +58,13 @@ public class OrderController {
     )
     @PutMapping("/{orderId}")
     public OrderDto updateOrder(@PathVariable Long orderId, @RequestBody OrderDto orderDto) {
-        // Zwraca zaktualizowane dane zamówienia, na razie sztuczne
         return new OrderDto(
                 orderId,
-                LocalDate.of(2024, 9, 1),
-                BigDecimal.valueOf(599.99),
-                "Processing",
-                1L
+                orderDto.getUserId(),
+                orderDto.getCartId(),
+                orderDto.getStatus(),
+                orderDto.getCreationDate(),
+                orderDto.getTotalAmount()
         );
     }
 
