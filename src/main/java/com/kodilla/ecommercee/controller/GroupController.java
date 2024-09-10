@@ -55,7 +55,11 @@ public class GroupController {
     public ResponseEntity<GroupDto> getGroup(
             @Parameter(description = "Group identifier", required = true, example = "1")
             @PathVariable Long groupId) throws GroupNotFoundException {
-        return ResponseEntity.ok(groupMapper.groupToGroupDto(groupDbService.getGroup(groupId)));
+        if (!groupDbService.getGroup(groupId).isPresent()) {
+            throw new GroupNotFoundException();
+        } else {
+            return ResponseEntity.ok(groupMapper.groupToGroupDto(groupDbService.getGroup(groupId).get()));
+        }
     }
 
     @Operation(

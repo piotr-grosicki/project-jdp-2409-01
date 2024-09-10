@@ -17,9 +17,9 @@ public class GroupDto {
     @Schema(description = "Identifier of the parent group", example = "0")
     private Long parentGroupId;
     @Schema(description = "List of subgroups")
-    private List<Group> subGroups;
+    private List<Long> subGroupIds;
     @Schema(description = "List of products in group")
-    private List<Product> products;
+    private List<ProductDto> products;
     @Schema(description = "Group creation date")
     private LocalDateTime createdDate;
 }

@@ -21,7 +21,7 @@ public class ProductDto {
     @Schema(description = "Quantity of the product", example = "100")
     private final int quantity;
     @Schema(description = "Id group for product", example = "1")
-    private final Group productGroupId;
+    private final Long productGroupId;
     @Schema(description = "Product creation date", example = "2024-09-03T20:30:45")
     private final LocalDate createDate;
 }
