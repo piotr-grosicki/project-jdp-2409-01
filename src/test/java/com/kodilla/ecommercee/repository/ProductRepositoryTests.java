@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.repository;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ import java.util.stream.StreamSupport;
 
 @DisplayName("Tests for ProductRepository")
 @SpringBootTest
+@Transactional
 public class ProductRepositoryTests {
 
     @Autowired
@@ -38,6 +41,7 @@ public class ProductRepositoryTests {
         //When
         Iterable<Product> products = productRepository.findAll();
         List<Product> listOfProducts = StreamSupport.stream(products.spliterator(), false).collect(Collectors.toList());
+        listOfProducts.sort(Comparator.comparing(Product::getId));
         //Then
         Assertions.assertEquals(2, listOfProducts.size());
         //Clean Up
