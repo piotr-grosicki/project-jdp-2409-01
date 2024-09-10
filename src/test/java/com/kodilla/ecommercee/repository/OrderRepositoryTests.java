@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,15 +25,18 @@ public class OrderRepositoryTests {
     @Test
     void shouldSaveOrder() {
         // Given
-        Order order = new Order(null,null, new BigDecimal("100.00"), LocalDateTime.now(), OrderStatus.CREATED,null); // Temporarily set orderId to 0 or a placeholder value
+        Order order = new Order(null,null, new BigDecimal("100.00"), LocalDateTime.now(), OrderStatus.CREATED,null);
         Order savedOrder = orderRepository.save(order);
-        Long savedOrderId = savedOrder.getOrderId(); // Get the actual ID assigned by the database
+        Long savedOrderId = savedOrder.getOrderId();
+
         // When
         Optional<Order> retrievedOrder = orderRepository.findById(savedOrderId);
+
         // Then
         Assertions.assertTrue(retrievedOrder.isPresent());
         Assertions.assertEquals(new BigDecimal("100.00"), retrievedOrder.get().getTotal());
         Assertions.assertEquals(OrderStatus.CREATED, retrievedOrder.get().getStatus());
+
         // CleanUp
         orderRepository.deleteById(savedOrderId);
     }
@@ -43,15 +45,20 @@ public class OrderRepositoryTests {
     @Test
     void shouldDeleteOrder() {
         // Given
-        Order order = new Order(1L,null, new BigDecimal("100.00"), LocalDateTime.now(), OrderStatus.CREATED,null); // Temporarily set orderId to 0 or a placeholder value
+        Order order = new Order(null, null, new BigDecimal("100.00"), LocalDateTime.now(), OrderStatus.CREATED,null);
         Order savedOrder = orderRepository.save(order);
-        Long savedOrderId = savedOrder.getOrderId(); // Get the actual ID assigned by the database
+        Long savedOrderId = savedOrder.getOrderId();
+
         // When
         orderRepository.deleteById(savedOrderId);
+
         // Then
         Optional<Order> retrievedOrder = orderRepository.findById(savedOrderId);
         Assertions.assertFalse(retrievedOrder.isPresent());
-        // CleanUp
-        orderRepository.deleteById(savedOrderId);
+
+        // Clean up
+        if (retrievedOrder.isPresent()) {
+            orderRepository.deleteById(savedOrderId);
+        }
     }
 }
