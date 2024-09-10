@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.mapper.ProductMapper;
@@ -48,7 +49,7 @@ public class ProductController {
             description = "Create product in database",
             summary = "Create product"
     )
-    @PostMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
         Product product = productMapper.productDtoToProduct(productDto);
