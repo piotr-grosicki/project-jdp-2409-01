@@ -19,7 +19,7 @@ public class Cart {
     @GeneratedValue
     @Column(name = "CART_ID", unique = true)
     private Long cartId;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
     @ManyToMany
