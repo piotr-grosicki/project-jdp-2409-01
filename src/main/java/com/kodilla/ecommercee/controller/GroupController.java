@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/groups")
+@RequestMapping("/v1/groups")
 @Tag(name = "Groups", description = "Managing product groups")
 public class GroupController {
 
