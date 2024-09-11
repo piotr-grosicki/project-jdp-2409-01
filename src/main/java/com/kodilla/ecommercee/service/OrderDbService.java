@@ -7,23 +7,19 @@ import com.kodilla.ecommercee.controller.exception.CartNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@RequiredArgsConstructor
 @Service
 public class OrderDbService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
-
-    public OrderDbService(OrderRepository orderRepository, CartRepository cartRepository, UserRepository userRepository) {
-        this.orderRepository = orderRepository;
-        this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-    }
 
     public List<OrderDto> getAllOrders() {
         return StreamSupport.stream(orderRepository.findAll().spliterator(), false)

@@ -6,19 +6,17 @@ import com.kodilla.ecommercee.controller.exception.CartNotFoundException;
 import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.service.OrderDbService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/orders")
 public class OrderController {
 
     private final OrderDbService orderDbService;
-
-    public OrderController(OrderDbService orderDbService) {
-        this.orderDbService = orderDbService;
-    }
 
     @PostMapping
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException, CartNotFoundException {
