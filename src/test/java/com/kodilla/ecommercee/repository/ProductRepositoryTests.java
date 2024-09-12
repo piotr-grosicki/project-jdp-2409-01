@@ -1,7 +1,8 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.domain.Group;
-import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.controller.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.domain.*;
+import com.kodilla.ecommercee.service.ProductDbService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -27,14 +29,21 @@ public class ProductRepositoryTests {
     private ProductRepository productRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private CartRepository cartRepository;
+    @Autowired
+    private ProductDbService productDbService;
+    @Autowired
+    private UserRepository userRepository;
 
-    @DisplayName("Test case for getAll method")
+    @DisplayName("Test case for findAll method")
     @Test
     public void getAll() {
         //Given
         Product product = new Product(null, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
         Product savedProduct = productRepository.save(product);
         Long productId = savedProduct.getId();
+
         Product product2 = new Product(null, "Yamaha", "Motorcycle", new BigDecimal(16000), 1, null, LocalDate.now());
         Product savedProduct2 = productRepository.save(product2);
         Long productId2 = savedProduct2.getId();
@@ -64,19 +73,36 @@ public class ProductRepositoryTests {
         //Clean Up
         productRepository.deleteById(productId);
     }
+
     @DisplayName("Test case for delete method")
     @Test
-    void shouldDeleteProductButNotGroup() {
+    void shouldDeleteProduct() {
+        //Given
+        Product product = new Product(null, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
+        Product savedProduct = productRepository.save(product);
+        Long productId = savedProduct.getId();
+        //When
+        productRepository.deleteById(productId);
+        //Then
+        Assertions.assertFalse(productRepository.findById(productId).isPresent());
+        //Clean up
+    }
+
+    @DisplayName("Test case for delete method to ensure product group is not deleted")
+    @Test
+    void shouldNotDeleteGroupAfterDeletingProduct() {
         //Given
         Group group = new Group(null,"Small SUV", null, null, null, LocalDateTime.now());
         Group savedGroup = groupRepository.save(group);
         Long groupId = savedGroup.getId();
+
         Product product = new Product(null, "Toyota", "Car", new BigDecimal(55000), 1, group, LocalDate.now());
         Product savedProduct = productRepository.save(product);
         Long productId = savedProduct.getId();
         //When
-        Optional<Group> groupSaved = groupRepository.findById(groupId);
         productRepository.deleteById(productId);
+
+        Optional<Group> groupSaved = groupRepository.findById(groupId);
         //Then
         Assertions.assertFalse(productRepository.findById(productId).isPresent());
         Assertions.assertTrue(groupSaved.isPresent());
@@ -85,4 +111,25 @@ public class ProductRepositoryTests {
         groupRepository.deleteById(groupId);
     }
 
+    @Test
+    @DisplayName("Test case for delete method to ensure that the product from the cart will be removed when the product is deleted")
+    void shouldDeleteProductFromCartAfterDeletingProduct() throws ProductNotFoundException {
+        // Given
+        Product product = new Product(null, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
+        Product savedProduct = productRepository.save(product);
+        Long productId = savedProduct.getId();
+
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, LocalDate.of(2024,9,6));
+        User savedUser = userRepository.save(user);
+
+        Cart cart = new Cart(null, savedUser, new ArrayList<>(List.of(product)), LocalDateTime.now());
+        cartRepository.save(cart);
+        Long cartId = cart.getCartId();
+        // When
+        productDbService.deleteProduct(productId);
+
+        Cart retrievedCart = cartRepository.findById(cartId).orElseThrow();
+        // Then
+        Assertions.assertTrue(retrievedCart.getCartProducts().isEmpty());
+    }
 }
