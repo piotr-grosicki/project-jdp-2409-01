@@ -27,7 +27,7 @@ public class User {
     @Column(name = "LASTNAME")
     private String lastName;
     @NotNull
-    @Column(name = "LOGIN(EMAIL)", unique = true)
+    @Column(name = "EMAIL", unique = true)
     private String email;
     @NotNull
     @Column(name = "PASSWORD")
@@ -37,13 +37,6 @@ public class User {
     @Column(name = "STATUS")
     private UserStatus status;
     @NotNull
-    @Column(name = "TEMPORARY_KEY")
-    private Integer temporaryKey;
-    @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;
-    @OneToMany(mappedBy = "cartId", cascade = CascadeType.ALL)
-    private List<Cart> carts;
-    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
-    private List<Order> orders;
 }
