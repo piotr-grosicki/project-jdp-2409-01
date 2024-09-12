@@ -25,7 +25,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldSaveUser() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
@@ -40,7 +40,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldChangeUserStatus() {
         //Given
-        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6),null,null);
+        User user = new User(1L,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE,  LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         //When
@@ -60,7 +60,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldFindUserById() {
         // Given
-        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE,  LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         // When
@@ -76,7 +76,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldFindUserByUsername() {
         // Given
-        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         // When
@@ -92,7 +92,7 @@ public class UserRepositoryTests {
     @Test
     public void shouldFindUserByEmail() {
         // Given
-        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
         // When

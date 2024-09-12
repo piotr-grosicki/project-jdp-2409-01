@@ -40,11 +40,11 @@ public class GroupRepositoryTests {
         Group parentGroup = new Group(null, "Parent group", null, null, null, LocalDateTime.now());
         Group childGroup = new Group(null, "Child group", parentGroup, null, null, LocalDateTime.now());
 
-        groupRepository.save(parentGroup);
-        groupRepository.save(childGroup);
+        Group savedParentGroup = groupRepository.save(parentGroup);
+        Group savedChildGroup = groupRepository.save(childGroup);
 
-        Long parentGroupId = parentGroup.getId();
-        Long childGroupId = childGroup.getId();
+        Long parentGroupId = savedParentGroup.getId();
+        Long childGroupId = savedChildGroup.getId();
         // When
         groupRepository.deleteById(parentGroupId);
         // Then

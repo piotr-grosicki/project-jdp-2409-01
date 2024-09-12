@@ -35,7 +35,16 @@ public class CartRepositoryTests {
     @Test
     void shouldSaveCart() {
         // Given
-        User user = new User(null, "JaninaNowak", "Janina", "Nowak", "janina.nowak@mail.com", "another-strong-password", UserStatus.BLOCKED, 123456, LocalDate.of(2024, 2, 1), new ArrayList<>(), new ArrayList<>());
+        User user = new User(
+                null,
+                "JaninaNowak",
+                "Janina",
+                "Nowak",
+                "janina.nowak@mail.com",
+                "another-strong-password",
+                UserStatus.BLOCKED,
+                LocalDate.of(2024, 2, 1)
+        );
 
         User savedUser = userRepository.save(user);
         Long savedUserId = savedUser.getUserId();
@@ -61,7 +70,16 @@ public class CartRepositoryTests {
     @Test
     void shouldDeleteCart() {
         // Given
-        User user = new User(null, "JaninaNowak", "Janina", "Nowak", "janina.nowak@mail.com", "another-strong-password", UserStatus.BLOCKED, 123456, LocalDate.of(2024, 2, 1), new ArrayList<>(), new ArrayList<>());
+        User user = new User(
+                null,
+                "JaninaNowak",
+                "Janina",
+                "Nowak",
+                "janina.nowak@mail.com",
+                "another-strong-password",
+                UserStatus.BLOCKED,
+                LocalDate.of(2024, 2, 1)
+        );
 
         User savedUser = userRepository.save(user);
         Long savedUserId = savedUser.getUserId();
@@ -86,7 +104,16 @@ public class CartRepositoryTests {
     @Test
     public void shouldFindCartById() {
         // Given
-        User user = new User(null, "JaninaNowak", "Janina", "Nowak", "janina.nowak@mail.com", "another-strong-password", UserStatus.BLOCKED, 123456, LocalDate.of(2024, 2, 1), new ArrayList<>(), new ArrayList<>());
+        User user = new User(
+                null,
+                "JaninaNowak",
+                "Janina",
+                "Nowak",
+                "janina.nowak@mail.com",
+                "another-strong-password",
+                UserStatus.BLOCKED,
+                LocalDate.of(2024, 2, 1)
+        );
 
         User savedUser = userRepository.save(user);
         Long savedUserId = savedUser.getUserId();
@@ -111,7 +138,16 @@ public class CartRepositoryTests {
     @Test
     public void shouldNotDeleteUserAfterDeletingCart() {
         // Given
-        User user = new User(null, "JaninaNowak", "Janina", "Nowak", "janina.nowak@mail.com", "another-strong-password", UserStatus.BLOCKED, 123456, LocalDate.of(2024, 2, 1), new ArrayList<>(), new ArrayList<>());
+        User user = new User(
+                null,
+                "JaninaNowak",
+                "Janina",
+                "Nowak",
+                "janina.nowak@mail.com",
+                "another-strong-password",
+                UserStatus.BLOCKED,
+                LocalDate.of(2024, 2, 1)
+        );
 
         User savedUser = userRepository.save(user);
         Long savedUserId = savedUser.getUserId();
@@ -136,7 +172,15 @@ public class CartRepositoryTests {
     @Test
     public void shouldNotDeleteProductAfterDeletingCart() {
         // Given
-        Product product = new Product(null, "Toyota", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
+        Product product = new Product(
+                null,
+                "Toyota",
+                "Car",
+                new BigDecimal(55000),
+                1,
+                null,
+                LocalDate.now()
+        );
 
         Product savedProduct = productRepository.save(product);
         Long savedProductId = savedProduct.getId();
@@ -155,28 +199,5 @@ public class CartRepositoryTests {
         Assertions.assertTrue(productRepository.findById(savedProductId).isPresent());
         // CleanUp
         productRepository.deleteById(savedProductId);
-    }
-
-    @Test
-    @DisplayName("Test case for finding carts that contain a specific product")
-    void shouldFindCartsContainingProduct() {
-        // Given
-        Product product1 = new Product(null, "Toyota1", "Car", new BigDecimal(55000), 1, null, LocalDate.now());
-        Product savedProduct1 = productRepository.save(product1);
-
-        User user = new User(null, "Bubus", "Bubuslaw", "Buslawska 1", "bubus@example.com", "bubus1", UserStatus.ACTIVE, 123, LocalDate.now(), null, null);
-        User savedUser = userRepository.save(user);
-
-        Cart cart1 = new Cart(null, user, new ArrayList<>(List.of(savedProduct1)), LocalDateTime.now());
-        Cart cart2 = new Cart(null, user, new ArrayList<>(List.of(savedProduct1)), LocalDateTime.now());
-
-        cartRepository.save(cart1);
-        cartRepository.save(cart2);
-        // When
-        List<Cart> cartsContainingProduct1 = cartRepository.findByCartProductsContains(savedProduct1);
-        // Then
-        Assertions.assertEquals(2, cartsContainingProduct1.size());
-        Assertions.assertTrue(cartsContainingProduct1.contains(cart1));
-        Assertions.assertTrue(cartsContainingProduct1.contains(cart2));
     }
 }

@@ -67,4 +67,18 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public Error handleEmailExistsException(EmailExistsException eee) {
         return new Error("ERROR", "email.already.exists", eee.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(GroupNotFoundException.class)
+    public Error handleGroupNotFoundException(GroupNotFoundException gnfe) {
+        return new Error("ERROR", "group.does.not.exist", gnfe.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(ParentGroupNotFoundException.class)
+    public Error handleParentGroupNotFoundException(ParentGroupNotFoundException pgnfe) {
+        return new Error("ERROR", "parent.group.does.not.exist", pgnfe.getMessage());
+    }
 }
