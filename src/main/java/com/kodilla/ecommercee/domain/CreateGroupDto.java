@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class UpdateGroupDto {
+public class CreateGroupDto {
     @Schema(description = "Name of the group", example = "Group Name")
     private String name;
     @Schema(description = "Identifier of the parent group", example = "0")

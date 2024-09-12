@@ -1,7 +1,11 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.controller.exception.ParentGroupNotFoundException;
+import com.kodilla.ecommercee.domain.CreateGroupDto;
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
+import com.kodilla.ecommercee.domain.UpdateGroupDto;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupDbService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +23,6 @@ import java.util.List;
 @RequestMapping("/v1/groups")
 @Tag(name = "Groups", description = "Managing product groups")
 public class GroupController {
-
     private final GroupMapper groupMapper;
     private final GroupDbService groupDbService;
 
@@ -40,10 +43,10 @@ public class GroupController {
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
-        Group group = groupMapper.groupDtoToGroup(groupDto);
+    public ResponseEntity<Void> createGroup(@RequestBody CreateGroupDto createGroupDto) throws ParentGroupNotFoundException {
+        Group group = groupMapper.createGroupDtoToGroup(createGroupDto);
         groupDbService.saveGroup(group);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Operation(
@@ -56,7 +59,7 @@ public class GroupController {
             @Parameter(description = "Group identifier", required = true, example = "1")
             @PathVariable Long groupId) throws GroupNotFoundException {
         if (!groupDbService.getGroup(groupId).isPresent()) {
-            throw new GroupNotFoundException();
+            throw new GroupNotFoundException(groupId);
         } else {
             return ResponseEntity.ok(groupMapper.groupToGroupDto(groupDbService.getGroup(groupId).get()));
         }
@@ -65,12 +68,18 @@ public class GroupController {
     @Operation(
             description = "Updating a product group",
             summary = "Update a group")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> updateGroup(
+            @PathVariable Long groupId,
             @Parameter(description = "Group identifier", required = true, example = "1")
-            @RequestBody GroupDto groupDto) throws GroupNotFoundException {
-        Group group = groupMapper.groupDtoToGroup(groupDto);
-        return ResponseEntity.ok(groupMapper.groupToGroupDto(group));
+            @RequestBody UpdateGroupDto updateGroupDto) throws GroupNotFoundException, ParentGroupNotFoundException {
+        if (!groupDbService.getGroup(groupId).isPresent()) {
+            throw new GroupNotFoundException(groupId);
+        } else {
+            Group group = groupMapper.updateGroupDtoToGroup(groupId, updateGroupDto);
+
+            return ResponseEntity.ok(groupMapper.groupToGroupDto(groupDbService.updateGroup(group)));
+        }
     }
 }
