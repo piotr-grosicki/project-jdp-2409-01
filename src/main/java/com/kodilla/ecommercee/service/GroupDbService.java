@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GroupDbService {
-
     private final GroupRepository groupRepository;
 
     public List<Group> getAllGroups() {

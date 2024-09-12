@@ -25,8 +25,8 @@ public class ProductController {
     private final ProductDbService productDbService;
 
     @Operation(
-            description = "Get products list from database",
-            summary = "Get products"
+            description = "Fetches a list of all products available",
+            summary = "Retrieve all products"
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -36,8 +36,8 @@ public class ProductController {
     }
 
     @Operation(
-            description = "Get product from database",
-            summary = "Get product"
+            description = "Fetches a single product based on its unique ID",
+            summary = "Retrieve a product"
     )
     @GetMapping(value = "/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -46,8 +46,8 @@ public class ProductController {
     }
 
     @Operation(
-            description = "Create product in database",
-            summary = "Create product"
+            description = "Creates a new product",
+            summary = "Create a new product"
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,8 +58,8 @@ public class ProductController {
     }
 
     @Operation(
-            description = "Update product in database",
-            summary = "Update product"
+            description = "Updates an existing product identified by its ID",
+            summary = "Update an existing product"
     )
     @PutMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -70,8 +70,8 @@ public class ProductController {
     }
 
     @Operation(
-            description = "Delete product from database",
-            summary = "Delete product"
+            description = "Deletes an existing product identified by its ID",
+            summary = "Delete an existing product"
     )
     @DeleteMapping(value = "/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

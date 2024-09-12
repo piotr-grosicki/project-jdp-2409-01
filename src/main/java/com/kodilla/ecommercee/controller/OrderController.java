@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.controller.exception.CartNotFoundException;
 import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.service.OrderDbService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/orders")
+@Tag(name = "Orders", description = "Managing orders")
 public class OrderController {
 
     private final OrderDbService orderDbService;
 
     @Operation(
-            description = "Retrieve all orders",
-            summary = "Get all orders"
+            description = "Fetches a list of all existing orders",
+            summary = "Retrieve all orders"
     )
     @GetMapping
     public ResponseEntity<List<OrderDto>> getOrders() {
@@ -31,8 +33,8 @@ public class OrderController {
     }
 
     @Operation(
-            description = "Retrieve a specific order",
-            summary = "Get order by id"
+            description = "Fetches a single order based on its unique ID",
+            summary = "Retrieve an order"
     )
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable Long orderId) {
@@ -45,8 +47,8 @@ public class OrderController {
     }
 
     @Operation(
-            description = "Create a new order",
-            summary = "Create order"
+            description = "Creates a new order",
+            summary = "Create a new order"
     )
     @PostMapping
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException, CartNotFoundException {
@@ -55,8 +57,8 @@ public class OrderController {
     }
 
     @Operation(
-            description = "Update an existing order",
-            summary = "Update order"
+            description = "Updates an existing order identified by its ID",
+            summary = "Update an existing order"
     )
     @PutMapping("/{orderId}")
     public ResponseEntity<OrderDto> updateOrder(@PathVariable Long orderId, @RequestBody OrderDto orderDto) throws OrderNotFoundException, UserNotFoundException, CartNotFoundException {
@@ -65,8 +67,8 @@ public class OrderController {
     }
 
     @Operation(
-            description = "Delete order by id",
-            summary = "Delete order"
+            description = "Deletes an existing order identified by its ID",
+            summary = "Delete an existing order"
     )
     @DeleteMapping("/{orderdId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderdId) {
