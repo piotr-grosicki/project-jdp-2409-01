@@ -119,7 +119,7 @@ public class ProductRepositoryTests {
         Product savedProduct = productRepository.save(product);
         Long productId = savedProduct.getId();
 
-        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, 124, LocalDate.of(2024,9,6), null, null);
+        User user = new User(null,"CarolD","Carol","Denver", "carold@gmail.com", "Carol123", UserStatus.ACTIVE, LocalDate.of(2024,9,6));
         User savedUser = userRepository.save(user);
 
         Cart cart = new Cart(null, savedUser, new ArrayList<>(List.of(product)), LocalDateTime.now());
