@@ -43,10 +43,7 @@ public class CartRepositoryTests {
                 "janina.nowak@mail.com",
                 "another-strong-password",
                 UserStatus.BLOCKED,
-                123456,
-                LocalDate.of(2024, 2, 1),
-                new ArrayList<>(),
-                new ArrayList<>()
+                LocalDate.of(2024, 2, 1)
         );
 
         User savedUser = userRepository.save(user);
@@ -81,10 +78,7 @@ public class CartRepositoryTests {
                 "janina.nowak@mail.com",
                 "another-strong-password",
                 UserStatus.BLOCKED,
-                123456,
-                LocalDate.of(2024, 2, 1),
-                new ArrayList<>(),
-                new ArrayList<>()
+                LocalDate.of(2024, 2, 1)
         );
 
         User savedUser = userRepository.save(user);
@@ -118,10 +112,7 @@ public class CartRepositoryTests {
                 "janina.nowak@mail.com",
                 "another-strong-password",
                 UserStatus.BLOCKED,
-                123456,
-                LocalDate.of(2024, 2, 1),
-                new ArrayList<>(),
-                new ArrayList<>()
+                LocalDate.of(2024, 2, 1)
         );
 
         User savedUser = userRepository.save(user);
@@ -155,10 +146,7 @@ public class CartRepositoryTests {
                 "janina.nowak@mail.com",
                 "another-strong-password",
                 UserStatus.BLOCKED,
-                123456,
-                LocalDate.of(2024, 2, 1),
-                new ArrayList<>(),
-                new ArrayList<>()
+                LocalDate.of(2024, 2, 1)
         );
 
         User savedUser = userRepository.save(user);

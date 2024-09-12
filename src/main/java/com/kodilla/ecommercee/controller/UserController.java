@@ -27,8 +27,8 @@ public class UserController {
             summary = "Create user"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto createUserDto) throws UsernameExistsException, EmailExistsException {
-        User user = userMapper.mapCreateUserDtoToUser(createUserDto);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UsernameExistsException, EmailExistsException {
+        User user = userMapper.mapCreateUserDtoToUser(userDto);
 
         User savedUser = userDbService.createUser(user);
 
@@ -47,13 +47,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(
-            description = "Create temporary key for user",
-            summary = "Create key"
-    )
-    @PostMapping(value = "/{userId}/key", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Integer> temporaryKeyGen(@PathVariable Long userId) throws UserNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).body(userDbService.createUserTemporaryKey(userId));
-    }
 }
