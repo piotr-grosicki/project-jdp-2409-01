@@ -5,7 +5,6 @@ import com.kodilla.ecommercee.controller.exception.UserNotFoundException;
 import com.kodilla.ecommercee.controller.exception.UsernameExistsException;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.UserStatus;
-import com.kodilla.ecommercee.generator.KeyGenerator;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,6 @@ public class UserDbService {
         }
 
         user.setStatus(UserStatus.ACTIVE);
-        user.setTemporaryKey(KeyGenerator.generateKey(null));
         user.setCreateDate(LocalDate.now());
 
         return userRepository.save(user);
@@ -42,16 +40,4 @@ public class UserDbService {
         userRepository.save(user);
     }
 
-    public Integer createUserTemporaryKey(Long userId) throws UserNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-
-        Integer userTemporaryKey = KeyGenerator.generateKey(userId);
-
-        user.setTemporaryKey(userTemporaryKey);
-
-        userRepository.save(user);
-
-        return userTemporaryKey;
-    }
 }
