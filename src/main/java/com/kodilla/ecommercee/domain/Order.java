@@ -30,6 +30,7 @@ public class Order {
     @NotNull
     @Column(name = "STATUS")
     private OrderStatus status;
+    @NotNull
     @OneToOne
     @JoinColumn(name = "CART_ID")
     private Cart cart;
