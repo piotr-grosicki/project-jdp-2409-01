@@ -61,7 +61,7 @@ public class OrderController {
             description = "Updates an existing order identified by its ID",
             summary = "Update an existing order"
     )
-    @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/modify/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<OrderDto> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderDto updateOrderDto) throws OrderNotFoundException {
         OrderDto updatedOrder = orderDbService.updateOrder(orderId, updateOrderDto);
