@@ -43,7 +43,7 @@ public class GroupMapper {
                         .flatMap(Optional::stream)
                         .toList(),
                 productMapper.mapToProductList(groupDto.getProducts()),
-                groupDto.getCreatedDate()
+                groupDto.getCreationDate()
         );
     }
 
@@ -54,7 +54,7 @@ public class GroupMapper {
                 group.getParentGroup() != null ? group.getParentGroup().getId() : null,
                 group.getSubGroups() != null ? group.getSubGroups().stream().map(Group::getId).toList() : new ArrayList<>(),
                 group.getProducts() != null ? productMapper.mapToProductDtoList(group.getProducts()) : new ArrayList<>(),
-                group.getCreatedDate()
+                group.getCreationDate()
         );
     }
 

@@ -23,7 +23,6 @@ import java.util.Optional;
 @SpringBootTest
 @Transactional
 public class CartRepositoryTests {
-
     @Autowired
     private CartRepository cartRepository;
     @Autowired

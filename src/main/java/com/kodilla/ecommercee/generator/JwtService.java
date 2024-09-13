@@ -1,6 +1,8 @@
 package com.kodilla.ecommercee.generator;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Getter
 public class JwtService {
-    @Value("${jwt.secret_key}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     public String generateToken(String username) {
