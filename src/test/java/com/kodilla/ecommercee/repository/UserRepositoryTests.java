@@ -17,7 +17,6 @@ import java.util.Optional;
 @Name("Tests for UserRepository")
 @SpringBootTest
 public class UserRepositoryTests {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -36,6 +35,7 @@ public class UserRepositoryTests {
         //CleanUp
         userRepository.deleteById(userId);
     }
+
     @Name("Test for changing status")
     @Test
     public void shouldChangeUserStatus() {

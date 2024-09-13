@@ -23,8 +23,8 @@ public class UserController {
     private final UserMapper userMapper;
 
     @Operation(
-            description = "Create user in database",
-            summary = "Create user"
+            description = "Registers a new user with the provided username, email, and other details",
+            summary = "Create a new user"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UsernameExistsException, EmailExistsException {
@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @Operation(
-            description = "Update user status",
-            summary = "Change status"
+            description = "Updates the status of an existing user identified by its ID.",
+            summary = "Update user status"
     )
     @PatchMapping(value = "/{userId}/status")
     @ResponseStatus(HttpStatus.OK)

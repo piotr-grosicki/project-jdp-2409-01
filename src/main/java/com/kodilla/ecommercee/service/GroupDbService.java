@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.controller.exception.ParentGroupNotFoundException;
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GroupDbService {
-
     private final GroupRepository groupRepository;
 
     public List<Group> getAllGroups() {
@@ -21,13 +19,13 @@ public class GroupDbService {
     }
 
     public Group saveGroup(Group group) {
-        group.setCreatedDate(LocalDateTime.now());
+        group.setCreationDate(LocalDateTime.now());
 
         return groupRepository.save(group);
     }
 
     public Group updateGroup(Group group) {
-        group.setCreatedDate(groupRepository.findById(group.getId()).get().getCreatedDate());
+        group.setCreationDate(groupRepository.findById(group.getId()).get().getCreationDate());
 
         return groupRepository.save(group);
     }

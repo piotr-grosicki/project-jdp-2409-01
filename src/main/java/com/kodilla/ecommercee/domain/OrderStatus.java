@@ -1,5 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
 public enum OrderStatus {
-    CREATED, NEW;
+    CREATED, NEW, PROCESSING, FINISHED;
 }

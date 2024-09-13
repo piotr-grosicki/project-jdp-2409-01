@@ -27,8 +27,8 @@ public class GroupController {
     private final GroupDbService groupDbService;
 
     @Operation(
-            description = "Retrieve all product groups",
-            summary = "Get groups"
+            description = "Fetches a list of all product groups available",
+            summary = "Retrieve all product groups"
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -38,8 +38,8 @@ public class GroupController {
     }
 
     @Operation(
-            description = "Creating a product group",
-            summary = "Create a group"
+            description = "Creates a new product group",
+            summary = "Create a new product group"
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,8 +50,8 @@ public class GroupController {
     }
 
     @Operation(
-            description = "Receiving a product group by its group ID",
-            summary = "Get a group"
+            description = "Fetches a single product group based on its unique ID",
+            summary = "Retrieve a product group"
     )
     @GetMapping(value = "/{groupId}")
     @ResponseStatus(HttpStatus.OK)
@@ -66,8 +66,8 @@ public class GroupController {
     }
 
     @Operation(
-            description = "Updating a product group",
-            summary = "Update a group")
+            description = "Updates an existing product group identified by its ID",
+            summary = "Update an existing product group")
     @PutMapping(value = "/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> updateGroup(

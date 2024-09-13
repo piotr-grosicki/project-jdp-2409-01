@@ -21,5 +21,5 @@ public class GroupDto {
     @Schema(description = "List of products in group")
     private List<ProductDto> products;
     @Schema(description = "Group creation date")
-    private LocalDateTime createdDate;
+    private LocalDateTime creationDate;
 }
