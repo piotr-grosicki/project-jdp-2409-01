@@ -26,7 +26,7 @@ public class UserDbService {
         }
 
         user.setStatus(UserStatus.ACTIVE);
-        user.setCreateDate(LocalDate.now());
+        user.setCreationDate(LocalDate.now());
 
         return userRepository.save(user);
     }

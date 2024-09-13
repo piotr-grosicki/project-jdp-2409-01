@@ -21,7 +21,7 @@ public class ProductMapper {
                 productDto.getPrice(),
                 productDto.getQuantity(),
                 groupDbService.getGroup(productDto.getProductGroupId()).orElse(null),
-                productDto.getCreateDate());
+                productDto.getCreationDate());
     }
 
     public ProductDto productToProductDto(final Product product) {
@@ -32,7 +32,7 @@ public class ProductMapper {
                 product.getPrice(),
                 product.getQuantity(),
                 product.getGroup().getId(),
-                product.getCreatedDate());
+                product.getCreationDate());
     }
 
     public List<ProductDto> mapToProductDtoList(final List<Product> productList) {

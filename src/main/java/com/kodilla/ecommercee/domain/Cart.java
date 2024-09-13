@@ -30,6 +30,6 @@ public class Cart {
     )
     private List<Product> cartProducts;
     @NotNull
-    @Column(name = "CREATE_DATE")
-    private LocalDateTime createDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDateTime creationDate;
 }

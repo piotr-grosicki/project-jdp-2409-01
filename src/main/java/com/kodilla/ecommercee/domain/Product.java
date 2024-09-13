@@ -37,6 +37,6 @@ public class Product {
     @JoinColumn(name = "GROUP_ID")
     private Group group;
     @NotNull
-    @Column(name = "CREATE_DATE")
-    private LocalDate createdDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDate creationDate;
 }

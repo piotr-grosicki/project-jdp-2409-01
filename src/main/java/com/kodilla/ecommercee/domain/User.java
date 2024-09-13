@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Entity
@@ -37,6 +36,6 @@ public class User {
     @Column(name = "STATUS")
     private UserStatus status;
     @NotNull
-    @Column(name = "CREATE_DATE")
-    private LocalDate createDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDate creationDate;
 }

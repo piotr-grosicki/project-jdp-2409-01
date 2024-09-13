@@ -33,6 +33,6 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Product> products;
     @NotNull
-    @Column(name = "CREATE_DATE")
-    private LocalDateTime createdDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDateTime creationDate;
 }
