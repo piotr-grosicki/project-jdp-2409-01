@@ -8,3 +8,5 @@ spring:
     console:
     enabled: true
     path: /h2-console
+jwt:
+  secret-key: "f73kL2k8krQf9otgApPm3A4kO6Dfg8Jd6Gt3kB1m8dZ6hAl4"

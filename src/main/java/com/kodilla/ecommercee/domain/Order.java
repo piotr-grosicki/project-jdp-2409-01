@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity(name = "ORDERS")
 public class Order {
     @Id
@@ -26,7 +28,7 @@ public class Order {
     private BigDecimal total;
     @NotNull
     @Column(name = "ORDER_DATE")
-    private LocalDateTime createDate;
+    private LocalDateTime creationDate;
     @NotNull
     @Column(name = "STATUS")
     private OrderStatus status;

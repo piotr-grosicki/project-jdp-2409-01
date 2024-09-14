@@ -81,4 +81,26 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public Error handleParentGroupNotFoundException(ParentGroupNotFoundException pgnfe) {
         return new Error("ERROR", "parent.group.does.not.exist", pgnfe.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public Error handleInvalidCredentialsException(InvalidCredentialsException ice) {
+        return new Error("ERROR", "credentials.invalid", ice.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(OrderNotFoundException.class)
+    public Error handleOrderNotFoundException(OrderNotFoundException onfe) {
+        return new Error("ERROR", "order.does.not.exist", onfe.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(InvalidOrderStatusException.class)
+    public Error handleInvalidOrderStatusException(InvalidOrderStatusException iose) {
+        return new Error("ERROR", "order.status.cannot.be.changed", iose.getMessage());
+    }
+
 }
