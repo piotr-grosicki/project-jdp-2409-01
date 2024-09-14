@@ -1,0 +1,14 @@
+package com.kodilla.ecommercee.domain;
+
+public enum EventTitle {
+    CART_CREATION,
+    CART_ITEM_ADDITION,
+    CART_ITEM_REMOVAL,
+    ORDER_ADDITION,
+    ORDER_CREATION_FROM_CART,
+    ORDER_DELETION,
+    ORDER_UPDATE,
+    USER_STATUS_CHANGE,
+    USER_CREATION,
+    USER_KEY_GENERATION
+}

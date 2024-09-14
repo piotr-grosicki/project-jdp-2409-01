@@ -6,6 +6,8 @@ import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.repository.OrderRepository;
+import com.kodilla.ecommercee.service.EventDbService;
+import com.kodilla.ecommercee.service.EventDetailDbService;
 import com.kodilla.ecommercee.service.OrderDbService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -38,6 +40,10 @@ public class OrderControllerTests {
     private OrderRepository orderRepository;
     @MockBean
     private OrderMapper orderMapper;
+    @MockBean
+    private EventDbService eventDbService;
+    @MockBean
+    private EventDetailDbService eventDetailDbService;
 
     @DisplayName("Test case for no orders available")
     @Test
@@ -163,7 +169,7 @@ public class OrderControllerTests {
 
     @DisplayName("Test case for updating order")
     @Test
-    void shouldUpdateGroup() throws Exception {
+    void shouldUpdateOrder() throws Exception {
         UpdateOrderDto updateOrderDto = new UpdateOrderDto(OrderStatus.PROCESSING.name());
 
         Long orderId = 1L;
@@ -173,7 +179,6 @@ public class OrderControllerTests {
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(updateOrderDto);
-        System.out.println(jsonContent);
         // When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
@@ -192,7 +197,7 @@ public class OrderControllerTests {
 
     @DisplayName("Test case for updating order when order does not exist")
     @Test
-    void shouldReturnGroupNotFoundExceptionWhenUpdateGroup() throws Exception {
+    void shouldReturnGroupNotFoundExceptionWhenUpdateOrder() throws Exception {
         UpdateOrderDto updateOrderDto = new UpdateOrderDto(OrderStatus.PROCESSING.name());
         Long orderId = 1L;
 
@@ -212,27 +217,105 @@ public class OrderControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Order with ID 1 not found.")));
     }
 
+    @DisplayName("Test case for deleting existing order")
     @Test
     void shouldDeleteExistingOrder() throws Exception {
         // Given
         Long orderId = 1L;
+        OrderDto orderDto = new OrderDto(orderId, 2L, 3L, "NEW", LocalDateTime.now(), new BigDecimal("100.00"));
 
         Mockito.when(orderDbService.deleteOrder(orderId)).thenReturn(true);
+        Mockito.when(orderDbService.getOrderById(orderId)).thenReturn(orderDto);
         // When & Then
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/v1/orders/1"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
+    @DisplayName("Test case for deleting non-existing order")
     @Test
     void shouldReturnNotFoundWhenDeletingNonExistingOrder() throws Exception {
         // Given
         Long orderId = 1L;
+        OrderDto orderDto = new OrderDto(orderId, 2L, 3L, "NEW", LocalDateTime.now(), new BigDecimal("100.00"));
 
         Mockito.when(orderDbService.deleteOrder(orderId)).thenReturn(false);
+        Mockito.when(orderDbService.getOrderById(orderId)).thenReturn(orderDto);
         // When & Then
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/v1/orders/1"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void shouldLogEventWhenOrderIsUpdated() throws Exception {
+        // Given
+        UpdateOrderDto updateOrderDto = new UpdateOrderDto(OrderStatus.PROCESSING.name());
+
+        Long orderId = 1L;
+        OrderDto updatedOrderDto = new OrderDto(orderId, 2L, 3L, OrderStatus.PROCESSING.name(), LocalDateTime.of(2024, 9, 12, 12 ,0 ,0) , new BigDecimal("111.11"));
+
+        Mockito.when(orderDbService.updateOrder(Mockito.anyLong(), Mockito.any())).thenReturn(updatedOrderDto);
+
+        Event event = new Event();
+        Mockito.when(eventDbService.saveEvent(2L, EventTitle.ORDER_UPDATE)).thenReturn(event);
+        Mockito.doNothing().when(eventDetailDbService).saveEventDetails(Mockito.any(), Mockito.anyMap());
+
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(updateOrderDto);
+        // When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put("/v1/orders/modify/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent))
+                .andExpect(MockMvcResultMatchers.status().is(200));
+
+        Mockito.verify(eventDbService, Mockito.times(1)).saveEvent(2L, EventTitle.ORDER_UPDATE);
+        Mockito.verify(eventDetailDbService, Mockito.times(1)).saveEventDetails(Mockito.eq(event), Mockito.anyMap());
+    }
+
+    @Test
+    void shouldLogEventWhenOrderIsDeleted() throws Exception {
+        // Given
+        Long orderId = 1L;
+        OrderDto orderDto = new OrderDto(orderId, 2L, 3L, "NEW", LocalDateTime.now(), new BigDecimal("100.00"));
+
+        Mockito.when(orderDbService.deleteOrder(orderId)).thenReturn(true);
+        Mockito.when(orderDbService.getOrderById(orderId)).thenReturn(orderDto);
+
+        Event event = new Event();
+        Mockito.when(eventDbService.saveEvent(2L, EventTitle.ORDER_DELETION)).thenReturn(event);
+        Mockito.doNothing().when(eventDetailDbService).saveEventDetails(Mockito.any(), Mockito.anyMap());
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/v1/orders/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        Mockito.verify(eventDbService, Mockito.times(1)).saveEvent(2L, EventTitle.ORDER_DELETION);
+        Mockito.verify(eventDetailDbService, Mockito.times(1)).saveEventDetails(Mockito.eq(event), Mockito.anyMap());
+    }
+
+    @Test
+    void shouldLogEventWhenOrderIsAdded() throws Exception {
+        // Given
+        Long orderId = 1L;
+        OrderDto addedOrderDto = new OrderDto(orderId, 2L, 3L, OrderStatus.NEW.name(), LocalDateTime.of(2024, 9, 12, 12 ,0 ,0) , new BigDecimal("111.11"));
+
+        Mockito.when(orderDbService.addOrder(orderId)).thenReturn(addedOrderDto);
+
+        Event event = new Event();
+        Mockito.when(eventDbService.saveEvent(2L, EventTitle.ORDER_ADDITION)).thenReturn(event);
+        Mockito.doNothing().when(eventDetailDbService).saveEventDetails(Mockito.any(), Mockito.anyMap());
+        // When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/v1/orders/1"))
+                .andExpect(MockMvcResultMatchers.status().is(200));
+
+        Mockito.verify(eventDbService, Mockito.times(1)).saveEvent(2L, EventTitle.ORDER_ADDITION);
+        Mockito.verify(eventDetailDbService, Mockito.times(1)).saveEventDetails(Mockito.eq(event), Mockito.anyMap());
+    }
 }
+

@@ -37,8 +37,7 @@ public class CartDbService {
     }
 
     public List<Product> getCartProducts(Long cartId) throws CartNotFoundException {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        Cart cart = getCart(cartId);
 
         return cart.getCartProducts();
     }
@@ -48,8 +47,7 @@ public class CartDbService {
             throw new QuantityLessThanZeroException();
         }
 
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        Cart cart = getCart(cartId);
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
@@ -72,8 +70,7 @@ public class CartDbService {
     }
 
     public void deleteCartProduct(Long cartId, Long productId) throws CartNotFoundException, ProductNotFoundException {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        Cart cart = getCart(cartId);
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
@@ -88,8 +85,7 @@ public class CartDbService {
     }
 
     public Order createCartOrder(Long cartId) throws CartNotFoundException {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        Cart cart = getCart(cartId);
 
         BigDecimal totalAmount = cart.getCartProducts().stream()
                 .map(Product::getPrice)
@@ -105,5 +101,10 @@ public class CartDbService {
         );
 
         return orderRepository.save(order);
+    }
+
+    public Cart getCart(Long cartId) throws CartNotFoundException {
+        return cartRepository.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException(cartId));
     }
 }

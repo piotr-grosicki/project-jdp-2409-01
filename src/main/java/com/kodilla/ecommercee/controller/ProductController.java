@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("v1/products")
 @Tag(name = "Products", description = "Managing products")
 public class ProductController {
-
     private final ProductMapper productMapper;
     private final ProductDbService productDbService;
 

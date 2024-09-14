@@ -2,16 +2,11 @@ package com.kodilla.ecommercee.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Getter
-public class UserDto {
-    @Schema(description = "Unique identifier of the order", example = "1")
-    private final Long id;
+public class CreateUserDto {
     @Schema(description = "Username of the user", example = "TomCruise")
     private final String username;
     @Schema(description = "Name of the user", example = "Tom")

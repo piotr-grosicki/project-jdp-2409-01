@@ -1,19 +1,20 @@
 package com.kodilla.ecommercee.mapper;
 
+import com.kodilla.ecommercee.domain.CreateUserDto;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public User mapCreateUserDtoToUser(UserDto userDto) {
+    public User mapCreateUserDtoToUser(CreateUserDto createUserDto) {
         return new User(
                 null,
-                userDto.getUsername(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getEmail(),
-                userDto.getPassword(),
+                createUserDto.getUsername(),
+                createUserDto.getFirstName(),
+                createUserDto.getLastName(),
+                createUserDto.getEmail(),
+                createUserDto.getPassword(),
                 null,
                 null
 
@@ -22,6 +23,7 @@ public class UserMapper {
 
     public UserDto mapUserToUserDto(User user) {
         return new UserDto(
+                user.getUserId(),
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
