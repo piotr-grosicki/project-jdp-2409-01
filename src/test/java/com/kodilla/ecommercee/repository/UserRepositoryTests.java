@@ -138,7 +138,11 @@ public class UserRepositoryTests {
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getUserId();
 
-        Order order = new Order(null, savedUser, new BigDecimal("100.00"), LocalDateTime.of(2024, 9, 13, 12, 0, 0), OrderStatus.NEW, null);
+        Cart cart = new Cart(2L, savedUser, new ArrayList<>(), LocalDateTime.of(2024,5,10, 15, 10, 0));
+        Cart savedCart = cartRepository.save(cart);
+        Long cartId = savedCart.getCartId();
+
+        Order order = new Order(null, savedUser, new BigDecimal("100.00"), LocalDateTime.of(2024, 9, 13, 12, 0, 0), OrderStatus.NEW, savedCart);
         Order savedOrder = orderRepository.save(order);
         Long orderId = savedOrder.getOrderId();
 
@@ -149,6 +153,7 @@ public class UserRepositoryTests {
         Assertions.assertTrue(deletedUser.isPresent());
         // CleanUp
         orderRepository.deleteById(orderId);
+        cartRepository.deleteById(cartId);
         userRepository.deleteById(userId);
     }
 }
