@@ -28,11 +28,11 @@ public class Group {
     @ManyToOne
     @JoinColumn(name = "PARENT_GROUP_ID")
     private Group parentGroup;
-    @OneToMany(mappedBy = "parentGroup", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentGroup")
     private List<Group> subGroups;
     @OneToMany(mappedBy = "group")
     private List<Product> products;
     @NotNull
-    @Column(name = "CREATE_DATE")
-    private LocalDateTime createdDate;
+    @Column(name = "CREATION_DATE")
+    private LocalDateTime creationDate;
 }

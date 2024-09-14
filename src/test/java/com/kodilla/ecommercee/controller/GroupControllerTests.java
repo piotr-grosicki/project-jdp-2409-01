@@ -97,8 +97,8 @@ public class GroupControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].products[0].price", Matchers.is(100.00)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].products[0].quantity", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].products[0].productGroupId", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].products[0].createDate", Matchers.is("2024-09-11")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].createdDate", Matchers.is("2024-09-11T12:00:00")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].products[0].creationDate", Matchers.is("2024-09-11")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].creationDate", Matchers.is("2024-09-11T12:00:00")));
     }
 
     @DisplayName("Test case for creating a group")
@@ -190,8 +190,8 @@ public class GroupControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.products[0].price", Matchers.is(100.00)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.products[0].quantity", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.products[0].productGroupId", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.products[0].createDate", Matchers.is("2024-09-11")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.createdDate", Matchers.is("2024-09-11T12:00:00")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.products[0].creationDate", Matchers.is("2024-09-11")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.creationDate", Matchers.is("2024-09-11T12:00:00")));
     }
 
     @DisplayName("Test case for getting a group by ID when group does not exist")
@@ -241,7 +241,7 @@ public class GroupControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Updated Group")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.parentGroupId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.products", Matchers.nullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.createdDate", Matchers.is("2024-09-11T12:00:00")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.creationDate", Matchers.is("2024-09-11T12:00:00")));
     }
 
     @DisplayName("Test case for updating group when group does not exist")

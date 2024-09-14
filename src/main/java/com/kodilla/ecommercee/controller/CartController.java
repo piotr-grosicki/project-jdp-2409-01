@@ -27,8 +27,8 @@ public class CartController {
     private final OrderMapper orderMapper;
 
     @Operation(
-            description = "Creating an empty cart for user",
-            summary = "Create a cart"
+            description = "Creates a new, empty shopping cart for a specified user identified by its ID",
+            summary = "Create an empty cart"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,8 +37,8 @@ public class CartController {
     }
 
     @Operation(
-            description = "Receiving items from a cart by its cart ID",
-            summary = "Get items"
+            description = "Retrieves a list of all items present in a specific cart, identified by its cart ID",
+            summary = "Retrieve all items from the cart"
     )
     @GetMapping(value = "/{cartId}/items", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -47,8 +47,8 @@ public class CartController {
     }
 
     @Operation(
-            description = "Creating an item in cart",
-            summary = "Create an item"
+            description = "Adds a specific product to the cart. The cart ID and product details (quantity and productId) are provided in the request.",
+            summary = "Add an item to the cart"
     )
     @PostMapping(value = "/{cartId}/items", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,8 +61,8 @@ public class CartController {
     }
 
     @Operation(
-            description = "Deleting an item from cart",
-            summary = "Delete an item")
+            description = "Removes a specific product from the cart based on the cart ID and product ID",
+            summary = "Delete an item from the cart")
     @DeleteMapping(value = "/{cartId}/items/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteItem(
@@ -74,8 +74,8 @@ public class CartController {
     }
 
     @Operation(
-            description = "Creating an order for cart",
-            summary = "Create an order"
+            description = "Creates an order based on the items present in the specified cart",
+            summary = "Create an order from the cart"
     )
     @PostMapping(value = "/{cartId}/orders")
     @ResponseStatus(HttpStatus.CREATED)
