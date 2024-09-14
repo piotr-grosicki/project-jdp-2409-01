@@ -17,7 +17,6 @@ import java.util.Optional;
 @DisplayName("Tests for OrderRepository")
 @SpringBootTest
 public class OrderRepositoryTests {
-
     @Autowired
     private OrderRepository orderRepository;
 

@@ -33,6 +33,7 @@ public class OrderDbService {
     public OrderDto getOrderById(Long orderId) throws OrderNotFoundException {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
+
         return orderMapper.mapOrderToOrderDto(order);
     }
 

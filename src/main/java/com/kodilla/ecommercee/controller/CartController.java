@@ -6,6 +6,8 @@ import com.kodilla.ecommercee.mapper.CartMapper;
 import com.kodilla.ecommercee.mapper.ItemMapper;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.CartDbService;
+import com.kodilla.ecommercee.service.EventDbService;
+import com.kodilla.ecommercee.service.EventDetailDbService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +29,8 @@ public class CartController {
     private final CartMapper cartMapper;
     private final ItemMapper itemMapper;
     private final OrderMapper orderMapper;
+    private final EventDbService eventDbService;
+    private final EventDetailDbService eventDetailDbService;
 
     @Operation(
             description = "Creates a new, empty shopping cart for a specified user identified by its ID",
@@ -33,7 +39,14 @@ public class CartController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CartDto> createCart(@RequestHeader("userId") Long userId) throws UserNotFoundException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cartMapper.mapCartToCartDto(cartDbService.createCart(userId)));
+        CartDto createdCartDto = cartMapper.mapCartToCartDto(cartDbService.createCart(userId));
+
+        Event event = eventDbService.saveEvent(createdCartDto.getUserId(), EventTitle.CART_CREATION);
+        Map<EventDetailKey, String> eventDetails = new HashMap<>();
+        eventDetails.put(EventDetailKey.CART_ID, createdCartDto.getId().toString());
+        eventDetailDbService.saveEventDetails(event, eventDetails);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCartDto);
     }
 
     @Operation(
@@ -54,8 +67,15 @@ public class CartController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createItem(
             @PathVariable Long cartId,
-            @RequestBody ItemDto itemDto) throws CartNotFoundException, ProductNotFoundException, QuantityLessThanZeroException, QuantityLessThanZeroException, InsufficientStockException {
-                cartDbService.createCartProducts(cartId, itemDto.getProductId(), itemDto.getProductQuantity());
+            @RequestBody ItemDto itemDto) throws CartNotFoundException, ProductNotFoundException, QuantityLessThanZeroException, InsufficientStockException {
+        cartDbService.createCartProducts(cartId, itemDto.getProductId(), itemDto.getProductQuantity());
+
+        Event event = eventDbService.saveEvent(cartDbService.getCart(cartId).getUser().getUserId(), EventTitle.CART_ITEM_ADDITION);
+        Map<EventDetailKey, String> eventDetails = new HashMap<>();
+        eventDetails.put(EventDetailKey.CART_ID, cartId.toString());
+        eventDetails.put(EventDetailKey.PRODUCT_ID, itemDto.getProductId().toString());
+        eventDetails.put(EventDetailKey.PRODUCT_QUANTITY, itemDto.getProductQuantity().toString());
+        eventDetailDbService.saveEventDetails(event, eventDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -70,6 +90,12 @@ public class CartController {
             @PathVariable Long productId) throws CartNotFoundException, ProductNotFoundException {
         cartDbService.deleteCartProduct(cartId, productId);
 
+        Event event = eventDbService.saveEvent(cartDbService.getCart(cartId).getUser().getUserId(), EventTitle.CART_ITEM_REMOVAL);
+        Map<EventDetailKey, String> eventDetails = new HashMap<>();
+        eventDetails.put(EventDetailKey.CART_ID, cartId.toString());
+        eventDetails.put(EventDetailKey.PRODUCT_ID, productId.toString());
+        eventDetailDbService.saveEventDetails(event, eventDetails);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -80,6 +106,14 @@ public class CartController {
     @PostMapping(value = "/{cartId}/orders")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<OrderDto> createOrder(@PathVariable Long cartId) throws CartNotFoundException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderMapper.mapOrderToOrderDto(cartDbService.createCartOrder(cartId)));
+        OrderDto createdOrderDto = orderMapper.mapOrderToOrderDto(cartDbService.createCartOrder(cartId));
+
+        Event event = eventDbService.saveEvent(createdOrderDto.getUserId(), EventTitle.ORDER_CREATION_FROM_CART);
+        Map<EventDetailKey, String> eventDetails = new HashMap<>();
+        eventDetails.put(EventDetailKey.ORDER_ID, createdOrderDto.getId().toString());
+        eventDetails.put(EventDetailKey.CART_ID, createdOrderDto.getCartId().toString());
+        eventDetailDbService.saveEventDetails(event, eventDetails);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderDto);
     }
 }
