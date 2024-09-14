@@ -39,7 +39,7 @@ public class UserController {
             description = "Updates the status of an existing user identified by its ID.",
             summary = "Update user status"
     )
-    @PatchMapping(value = "/{userId}/status")
+    @PatchMapping(value = "/modify/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> updateUserStatus(@PathVariable Long userId, @RequestBody UserStatusDto userStatusDto) throws UserNotFoundException {
         userDbService.updateUserStatus(userId, userStatusDto.getStatus());

@@ -232,7 +232,7 @@ public class GroupControllerTests {
         // When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/v1/groups/3")
+                        .put("/v1/groups/modify/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
@@ -256,7 +256,7 @@ public class GroupControllerTests {
         String jsonContent = gson.toJson(updateGroupDto);
         // When & Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/groups/3")
+                        .put("/v1/groups/modify/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
@@ -283,7 +283,7 @@ public class GroupControllerTests {
         String jsonContent = gson.toJson(updateGroupDto);
         // When & Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/groups/3")
+                        .put("/v1/groups/modify/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
