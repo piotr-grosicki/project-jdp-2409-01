@@ -13,15 +13,18 @@
 10. [Future development](#future)
 
 ## Project Overview
-The **JDP240901 (Online Shop API)** is a backend service developed using **Java**, **Spring Boot**, and **Hibernate** to support an e-commerce platform. It allows managing products, groups(of products), orders, users, and shopping carts. The API can be integrated with frontend applications and other services to provide a seamless shopping experience.
+The **JDP240901 (Online Shop API)** is a backend service developed using **Java**, 
+**Spring Boot**, and **Hibernate** to support an e-commerce platform. It allows managing products, 
+products groups, orders, users, shopping carts, show user operation history and generate one-hour token for authorization. The API can be integrated with frontend 
+applications and other services to provide a seamless shopping experience.
 
 ### Features:
-- **Product Management**: Product catalogue with create, read, update, and delete (CRUD) operations.
-- **Group(of products) Managment**: Group catalogue with create, read and update operations.
-- **Cart**: Create cart. Add items to the cart, read and delete items from the cart. Create order from cart.
-- **Order Management**: Placing orders, read orders, managing order status, deleting order.
-- **User Management**: Users catalogue with create and profile status management.
-- **Authentication and Authorization**: Generate **JWT tokens** for user.
+- **Products Management**: Product catalogue with create, read, update, and delete (CRUD) operations.
+- **Products groups Management**: Group catalogue with create, read and update operations.
+- **Cart Management**: Create carts, add items to carts, read and delete items from carts, and create orders from carts.
+- **Orders Management**: Place orders, read orders, manage order statuses, and delete orders.
+- **Users Management**: Users catalogue with create and profile status management.
+- **Authentication and Authorization**: Generate **JWT tokens** for user authorization.
 
 ## Technologies Used
 - **Java 17**
@@ -31,6 +34,7 @@ The **JDP240901 (Online Shop API)** is a backend service developed using **Java*
 - **Gradle** for build and dependency management
 - **Lombok** for reducing boilerplate code
 - **JUnit 5** for unit testing
+- **Swagger** for documentation
 
 ## Requirements
 Before running the application, ensure you have the following installed:
@@ -47,7 +51,7 @@ Before running the application, ensure you have the following installed:
 ```
 2. Build the project with Gradle:
 ```
-   ./gradle build
+   ./gradlew build
 ```
 3. Ensure you have a running database and create a new database for the application:
 ```
@@ -74,56 +78,57 @@ spring:
 ###Running the Application
 
 You can run the application using Gradle.
-
 The application will be available at http://localhost:8080 by default.
+Swagger documentation will be available at http://localhost:8080/swagger-ui/index.html#/.
 
 ###API Endpoints
 
-**Product:**
+**Products:**
 - GET /v1/products – Get all products.
-- GET /v1/products/{productID} – Get product by ID.
+- GET /v1/products/{productId} – Get product by ID.
 - POST /v1/products – Add a new product.
-- PUT /v1/products/{productID} – Update product details (authenticated users) by ID.
-- DELETE /v1/products/{productID} – Delete a product by ID.
+- PUT /v1/products/modify/{productId} – Update product details by ID (authenticated users).
+- DELETE /v1/products/{productId} – Delete a product by ID.
 
-**Group:**
+**Groups:**
 - GET /v1/groups - Get all groups.
-- GET /v1/groups/{groupID} - Get group by ID.
+- GET /v1/groups/{groupId} - Get group by ID.
 - POST /v1/groups - Add a new group.
-- PUT /v1/groups/{groupID} - Update group details (authenticated users) by ID.
+- PUT /v1/groups/modify/{groupId} - Update group details by ID (authenticated users).
 
-**Cart:**
+**Carts:**
 - POST /v1/carts – Add an empty cart.
-- GET /v1/carts/{cartID}/items – Get current cart contents by ID.
-- POST /v1/carts/{cartID}/items - Add item to the cart by ID.
-- DELETE /v1/carts/{cartID}/items/{productID} – Remove item by product ID from the cart by cart ID.
-- POST /v1/carts/{cartID}/orders - Create order from cart by ID.
+- GET /v1/carts/{cartId}/items – Get current cart contents by ID.
+- POST /v1/carts/{cartId}/items - Add item to the cart by ID.
+- DELETE /v1/carts/{cartId}/items/{productId} – Remove item by product ID from the cart by cart ID.
+- POST /v1/carts/{cartId}/orders - Create order from cart by ID.
 
-**Order:**
+**Orders:**
 - GET /v1/orders – Get all orders.
-- GET /v1/orders/{orderID} – Get order by ID.
+- GET /v1/orders/{orderId} – Get order by ID.
 - POST /v1/orders - Add a new order.
-- PUT /v1/orders/{orderID} - Update order details (authenticated users) by ID.
-- DELETE /v1/orders/{orderID} - Delete order by ID.
+- PUT /v1/orders/modify/{orderId} - Update order details by ID (authenticated users).
+- DELETE /v1/orders/{orderId} - Delete order by ID.
 
-**User:**
+**Users:**
 - POST /v1/users – Add a new user.
-- PATCH /v1/users/{userID}/status – Update user status (authenticated users) by ID.
+- PATCH /v1/users/modify/{userId}/status – Update user status by ID (authenticated users).
 
 **Authentication**
-- POST /v1/users/key - Create one hour token for user.
+- POST /v1/users/key - Generate a one-hour token for the user.
 
 ##Testing
 To run tests for the project, use the following command:
 ```
-  ./gradle test
+  ./gradlew test
 ```
 ##Contributors
 - Piotr Grosicki(PM) - [GitHub](https://github.com/piotr-grosicki)
-- Marta Kowalczyk - [GitHub](https://github.com/martkow)
+- Bogdan Brandys - [GitHub](https://github.com/BogdanBrandys)
 - Krzysztof Fit – [GitHub](https://github.com/krzysztoffit)
 - Roman Khudoley – [GitHub](https://github.com/cdroma)
-- Bogdan Brandys - [GitHub](https://github.com/BogdanBrandys)
+- Marta Kowalczyk - [GitHub](https://github.com/martkow)
+
 
 ##Future development
 The Online Shop API has been designed with scalability in mind and is open for further development.
