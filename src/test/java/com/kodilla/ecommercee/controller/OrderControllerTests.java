@@ -182,7 +182,7 @@ public class OrderControllerTests {
         // When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/v1/orders/1")
+                        .put("/v1/orders/modify/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
@@ -207,7 +207,7 @@ public class OrderControllerTests {
         String jsonContent = gson.toJson(updateOrderDto);
         // When & Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/orders/1")
+                        .put("/v1/orders/modify/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))

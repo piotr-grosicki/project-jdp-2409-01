@@ -68,7 +68,7 @@ public class GroupController {
     @Operation(
             description = "Updates an existing product group identified by its ID",
             summary = "Update an existing product group")
-    @PutMapping(value = "/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/modify/{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GroupDto> updateGroup(
             @PathVariable Long groupId,

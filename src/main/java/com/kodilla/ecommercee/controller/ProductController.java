@@ -60,7 +60,7 @@ public class ProductController {
             description = "Updates an existing product identified by its ID",
             summary = "Update an existing product"
     )
-    @PutMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/modify/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto) {
         Product product = productMapper.productDtoToProduct(productDto);
